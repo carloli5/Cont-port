@@ -33,7 +33,7 @@ export const projectsData: Projects[] = [
             "/thesis-pics/thesis-img-6.png",
             "/thesis-pics/thesis-img-7.png",
         ],
-        videoUrl: "https://www.youtube.com/embed/iNPgLpJzjMA", 
+        videoUrl: "/tiktokVids/PLANWISE-ADS.mp4",
         projectUrl: "https://planwiseio.netlify.app/",
         technologies: ["javascript", "html5", "css3","threejs", "firebase"]
     },
@@ -73,7 +73,61 @@ export const projectsData: Projects[] = [
         customIcons: {
             "visily": "visily-icon.png"
         }
-    }
+    },
+    {
+        id: 2, 
+        title: "One App Mobile Application UI/UX Design",
+        description: [
+            "This project involved the design of a mobile application for the company where I worked for my internship, which is a comprehensive platform that features Employee Management System (EMS). The UI/UX design focuses on creating an intuitive and user-friendly interface that allows users to easily navigate through the app and access its features. This also serves as a mobile version of an EMS web application of the company where our manager directed me to change the design to adapt to the mobile platform.",
+            "In this project, I utilized Visily, a design tool that specializes in creating interactive prototypes and wireframes for digital products. The colors I used are based on the company's branding guidelines, which include a combination of blue and green tones with the main color of white, my handler thought me to use more white color to create a clean and professional look. The design also incorporates intuitive navigation elements and clear visual hierarchy to enhance the user experience.",
+            "I am inspired by the Sky or daytime scenes such as clouds and grass for the design of the app, as blue and green create a calming and pleasant atmosphere for the users. Overall, my project are approved by our manager and is currently being developed by the company's development team, which is a great achievement for me as a designer and it also serves as a valuable addition to my portfolio.",
+        ],
+        images: [
+            "/oodc-pics/oodc-img-1.jpg",
+            "/oodc-pics/oodc-img-2.jpg",
+            "/oodc-pics/oodc-img-3.jpg"
+        ],
+        technologies: ["visily"],
+        customIcons: {
+            "visily": "visily-icon.png"
+        }
+    },
+    {
+        id: 2, 
+        title: "One App Mobile Application UI/UX Design",
+        description: [
+            "This project involved the design of a mobile application for the company where I worked for my internship, which is a comprehensive platform that features Employee Management System (EMS). The UI/UX design focuses on creating an intuitive and user-friendly interface that allows users to easily navigate through the app and access its features. This also serves as a mobile version of an EMS web application of the company where our manager directed me to change the design to adapt to the mobile platform.",
+            "In this project, I utilized Visily, a design tool that specializes in creating interactive prototypes and wireframes for digital products. The colors I used are based on the company's branding guidelines, which include a combination of blue and green tones with the main color of white, my handler thought me to use more white color to create a clean and professional look. The design also incorporates intuitive navigation elements and clear visual hierarchy to enhance the user experience.",
+            "I am inspired by the Sky or daytime scenes such as clouds and grass for the design of the app, as blue and green create a calming and pleasant atmosphere for the users. Overall, my project are approved by our manager and is currently being developed by the company's development team, which is a great achievement for me as a designer and it also serves as a valuable addition to my portfolio.",
+        ],
+        images: [
+            "/oodc-pics/oodc-img-1.jpg",
+            "/oodc-pics/oodc-img-2.jpg",
+            "/oodc-pics/oodc-img-3.jpg"
+        ],
+        technologies: ["visily"],
+        customIcons: {
+            "visily": "visily-icon.png"
+        }
+    },
+    {
+        id: 2, 
+        title: "One App Mobile Application UI/UX Design",
+        description: [
+            "This project involved the design of a mobile application for the company where I worked for my internship, which is a comprehensive platform that features Employee Management System (EMS). The UI/UX design focuses on creating an intuitive and user-friendly interface that allows users to easily navigate through the app and access its features. This also serves as a mobile version of an EMS web application of the company where our manager directed me to change the design to adapt to the mobile platform.",
+            "In this project, I utilized Visily, a design tool that specializes in creating interactive prototypes and wireframes for digital products. The colors I used are based on the company's branding guidelines, which include a combination of blue and green tones with the main color of white, my handler thought me to use more white color to create a clean and professional look. The design also incorporates intuitive navigation elements and clear visual hierarchy to enhance the user experience.",
+            "I am inspired by the Sky or daytime scenes such as clouds and grass for the design of the app, as blue and green create a calming and pleasant atmosphere for the users. Overall, my project are approved by our manager and is currently being developed by the company's development team, which is a great achievement for me as a designer and it also serves as a valuable addition to my portfolio.",
+        ],
+        images: [
+            "/oodc-pics/oodc-img-1.jpg",
+            "/oodc-pics/oodc-img-2.jpg",
+            "/oodc-pics/oodc-img-3.jpg"
+        ],
+        technologies: ["visily"],
+        customIcons: {
+            "visily": "visily-icon.png"
+        }
+    },
     /*
     {
         id: 3,

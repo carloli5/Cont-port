@@ -4,12 +4,14 @@ import { ContactForm } from "@/components/topBarComponents/ContactForm";
 import { NotificationContainer } from "@/components/NotificationContainer";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
+import { useDarkMode } from "@/hooks/useDarkMode";
 
 const navigation = [
     { name: 'Home', href: '#introduction' },
     { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Services', href: '#services' },
     { name: 'Skills', href: '#skills' }
     // { name: 'Achievements', href: '#achievements' },
 ]
@@ -18,6 +20,7 @@ export function TopBar() {
     const [activeTab, setActiveTab] = useState('introduction');
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { isDarkMode } = useDarkMode();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -41,9 +44,14 @@ export function TopBar() {
 
     return (
         <>
-            <header className="bg-[#faf7f5] flex sticky top-0 z-100 items-center justify-between">
+            <header className={cn(
+                'backdrop-blur-xl border-b fixed inset-x-0 top-0 z-100 flex items-center justify-between px-4 sm:px-6',
+                isDarkMode
+                    ? 'bg-slate-950/35 text-slate-200 border-slate-700/50'
+                    : 'text-slate-900 border-slate-200/70'
+            )}>
                 <span>
-                    <img src="cn-logo.png" alt="Logo" className="h-20 w-auto pl-2 sm:h-20 sm:w-auto md:h-30 md:w-30 object-cover sm:pl-2 md:pl-6" />
+                    {/*<img src="cn-logo.png" alt="Logo" className="h-20 w-auto pl-2 sm:h-20 sm:w-auto md:h-30 md:w-30 object-cover sm:pl-2 md:pl-6" />*/}
                 </span>
                 <nav className="hidden md:flex flex-row gap-12 items-center pr-15 py-4">
                     {navigation.map((item) => (
@@ -51,11 +59,16 @@ export function TopBar() {
                         key= {item.name}
                         href= {item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`text-[#565d6d] afacad-flux text-xl pb-1 transition-colors ${
-                            activeTab === item.href.slice(1)
-                                ? 'border-b-2 border-[#bd6d5d] font-semibold text-[#bd6d5d]'
-                                : 'hover:text-[#bd6d5d]'
-                        }`}
+                        className={cn(
+                            'afacad-flux text-xl pb-1 transition-colors',
+                            isDarkMode
+                                ? 'text-slate-200 hover:text-[#0081b8]'
+                                : 'text-slate-900 hover:text-[#7d9995]',
+                            activeTab === item.href.slice(1) &&
+                                (isDarkMode
+                                    ? 'border-b-2 border-[#0081b8] font-semibold text-[#0081b8]'
+                                    : 'border-b-2 border-[#7d9995] font-semibold text-[#7d9995]')
+                        )}
                         >
                             {item.name}
                         </a>
@@ -63,7 +76,12 @@ export function TopBar() {
                     <span>
                         <Button 
                             onClick={() => setIsContactOpen(true)}
-                            className="p-5 afacad-flux text-md"
+                            className={cn(
+                                'p-5 afacad-flux text-md w-full',
+                                isDarkMode
+                                    ? 'bg-[#0081b8] text-white hover:bg-[#00648F]'
+                                    : 'bg-[#7d9995] text-white hover:bg-[#5c726f]'
+                            )}
                         >
                             Contact Me
                         </Button>
@@ -71,25 +89,38 @@ export function TopBar() {
                 </nav>
                 <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="md:hidden p-4 text-[#bd6d5d] cursor-pointer"
+                    className={cn(
+                        'md:hidden cursor-pointer p-2 ',
+                        isDarkMode ? 'text-[#0081b8] hover:text-white' : 'text-[#7d9995] hover:text-[#323743]'
+                    )}
                 >
                     {isMobileMenuOpen ? <X size={30} /> : <Menu size={30} />}
                 </button>
             </header>
             
             {isMobileMenuOpen && (
-                <div className="fixed top-[100px] left-0 right-0 md:hidden bg-[#faf7f5] border-b border-gray-200 z-150">
+                <div className={cn(
+                    'fixed top-[100px] left-0 right-0 md:hidden backdrop-blur-xl border-b z-150',
+                    isDarkMode
+                        ? 'bg-slate-950/90 border-slate-700/50'
+                        : 'border-slate-200/70'
+                )}>
                     <nav className="flex flex-col gap-4 p-4">
                         {navigation.map((item) => (
                             <a
                             key={item.name}
                             href={item.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={`text-[#565d6d] afacad-flux text-lg pb-2 transition-colors ${
-                                activeTab === item.href.slice(1)
-                                    ? 'border-b-2 border-[#bd6d5d] font-semibold text-[#bd6d5d]'
-                                    : 'hover:text-[#bd6d5d]'
-                            }`}
+                            className={cn(
+                            'afacad-flux text-xl pb-1 transition-colors',
+                            isDarkMode
+                                ? 'text-slate-200 hover:text-[#0081b8]'
+                                : 'text-slate-900 hover:text-[#7d9995]',
+                            activeTab === item.href.slice(1) &&
+                                (isDarkMode
+                                    ? 'border-b-2 border-[#0081b8] font-semibold text-[#0081b8]'
+                                    : 'border-b-2 border-[#7d9995] font-semibold text-[#7d9995]')
+                            )}
                             >
                                 {item.name}
                             </a>
@@ -99,7 +130,12 @@ export function TopBar() {
                                 setIsContactOpen(true);
                                 setIsMobileMenuOpen(false);
                             }}
-                            className="p-5 afacad-flux text-md w-full"
+                            className={cn(
+                                'p-5 afacad-flux text-md w-full',
+                                isDarkMode
+                                    ? 'bg-[#0081b8] text-white hover:bg-[#00648F]'
+                                    : 'bg-[#7d9995] text-white hover:bg-[#5c726f]'
+                            )}
                         >
                             Contact Me
                         </Button>
@@ -108,9 +144,18 @@ export function TopBar() {
             )}
 
             <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                <DialogContent className="sm:max-w-[500px]">
+                <DialogContent className={cn(
+                    'sm:max-w-[500px]',
+                    isDarkMode ? 'bg-[#0f172a]' : ''
+                )}>
                     <DialogHeader>
-                        <DialogTitle className="flex text-[#323743] aboreto-regular text-2xl items-center justify-center">Contact Me</DialogTitle>
+                        <DialogTitle className={cn(
+                            'flex aboreto-regular text-2xl items-center justify-center',
+                            isDarkMode ? 'text-slate-100' : 'text-[#323743]'
+                        )}
+                        >
+                            Contact Me
+                        </DialogTitle>
                     </DialogHeader>
                     <ContactForm onClose={() => setIsContactOpen(false)} />
                 </DialogContent>

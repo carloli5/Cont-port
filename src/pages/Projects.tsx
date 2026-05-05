@@ -1,17 +1,23 @@
-import { ProjectCard } from "@/components/projectsComponents/projectCard";
-import { projectsData } from "@/data/projectSampleData";
-
+import { CarouselComp } from "@/components/projectsComponents/projectCard";
+import { cn } from "@/lib/utils";
+import { useDarkMode } from "@/hooks/useDarkMode";
 
 export function Projects() {
+    const { isDarkMode } = useDarkMode();
+
     return(
-        <div className="bg-[#faf7f5] min-h-screen flex flex-col items-center justify-center">
-            <h1 className="text-4xl font-bold aboreto-regular text-[#323743] py-4 mt-25 sm:text-4xl md:text-6xl">
+        <div className={cn(
+            'min-h-screen flex flex-col items-center justify-center pb-10',
+            isDarkMode ? 'bg-[#0f172a]' : 'bg-[#faf7f5]'
+        )}>
+            <h1 className={cn(
+                'text-4xl font-bold aboreto-regular py-4 mt-25 sm:text-4xl md:text-6xl',
+                isDarkMode ? 'text-slate-100' : 'text-[#323743]'
+            )}>
                     Projects
             </h1>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6 md:p-8 justify-items-center">
-                {projectsData.map((project) => (
-                    <ProjectCard key={project.id} {...project} />
-                ))}
+            <div className="w-full px-8 md:px-8 sm:px-8">
+                <CarouselComp />
             </div>
             
         </div>

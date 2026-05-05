@@ -38,15 +38,6 @@ export function Homepage() {
                     <AboutMe/>
                 </motion.section>
                 <motion.section
-                    id="services"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    viewport={{ once: true }}
-                >
-                    <Services/>
-                </motion.section>
-                <motion.section
                     id="projects"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -54,6 +45,15 @@ export function Homepage() {
                     viewport={{ once: true }}
                 >
                     <Projects/>
+                </motion.section>
+                <motion.section
+                    id="services"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
+                    <Services/>
                 </motion.section>
                 <motion.section
                     id="skills"

@@ -7,6 +7,15 @@ html {
   scroll-behavior: smooth;
 }
 
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 .aboreto-regular {
   font-family: "Aboreto", system-ui;
   font-weight: 400;

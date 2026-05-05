@@ -8,6 +8,7 @@ import { BsTypescript, BsJavascript  } from "react-icons/bs";
 import { SiFirebase } from "react-icons/si";
 import { PiFileCpp } from "react-icons/pi";
 
+import { useDarkMode } from "@/hooks/useDarkMode"
 import type React from "react"
 import { useState, useEffect } from "react";
 
@@ -25,7 +26,10 @@ const chartData = [
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "#d39f94",
+    theme: {
+      light: "#7d9995",
+      dark: "#7dd3fc",
+    },
   }
 } satisfies ChartConfig
 
@@ -40,30 +44,26 @@ const iconMap: Record<string, React.ReactNode> = {
   typescript: <BsTypescript size={32} fill="#565d6d" />
 }
 
-const CustomTick = (props: any) => {
-  const { x, y, payload } = props
-  
+const CustomTick = ({ x, y, payload, isDarkMode }: any) => {
   return (
     <g transform={`translate(${x},${y})`}>
       <foreignObject x={-85} y={-12} width={40} height={40}>
         {iconMap[payload.value.toLowerCase()]}
       </foreignObject>
-      <text x={-45} y={14} textAnchor="start" fill="#565d6d" fontSize={14} className="md:text-lg">
+      <text x={-45} y={14} textAnchor="start" fill={isDarkMode ? "#cbd5e1" : "#565d6d"} fontSize={14} className="md:text-lg">
         {payload.value}
       </text>
     </g>
   )
 }
 
-const CustomTickVertical = (props: any) => {
-  const { x, y, payload } = props
-  
+const CustomTickVertical = ({ x, y, payload, isDarkMode }: any) => {
   return (
     <g transform={`translate(${x},${y})`}>
       <foreignObject x={-45} y={-20} width={32} height={32}>
         {iconMap[payload.value.toLowerCase()]}
       </foreignObject>
-      <text x={-30} y={26} textAnchor="middle" fill="#565d6d" fontSize={12}>
+      <text x={-30} y={26} textAnchor="middle" fill={isDarkMode ? "#cbd5e1" : "#565d6d"} fontSize={12}>
         {payload.value}
       </text>
     </g>
@@ -72,6 +72,7 @@ const CustomTickVertical = (props: any) => {
 
 
 export function ChartBarDemoAxis() {
+  const { isDarkMode } = useDarkMode()
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -85,17 +86,17 @@ export function ChartBarDemoAxis() {
   }, [])
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-4">
-        <h1 className="text-4xl md:text-6xl font-bold aboreto-regular text-[#323743] pt-10 md:pt-20">
+    <div className={isDarkMode ? "w-full h-full flex flex-col items-center justify-center px-4 bg-[#0f172a] text-slate-100" : "w-full h-full flex flex-col items-center justify-center px-4 bg-[#f2ebe5] text-[#323743]"}>
+        <h1 className={isDarkMode ? "text-4xl md:text-6xl font-bold aboreto-regular text-slate-100 pt-10 md:pt-20" : "text-4xl md:text-6xl font-bold aboreto-regular text-[#323743] pt-10 md:pt-20"}>
                 Skills
         </h1>
-      <ChartContainer config={chartConfig} className="w-full min-h-[600px] md:max-h-[600px] z-0 mt-8">
+      <ChartContainer config={chartConfig} className={isDarkMode ? "w-full min-h-[600px] md:max-h-[600px] z-0 mt-8 rounded-[2rem] bg-[#0f172a]" : "w-full min-h-[600px] md:max-h-[600px] z-0 mt-8 rounded-[2rem] border border-slate-200/60 bg-white/90"}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart accessibilityLayer data={chartData} layout={isMobile ? "vertical" : "horizontal"}>
           <defs>
               <linearGradient id="colorDesktop" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#d39f94" />
-              <stop offset="95%" stopColor="#f1dfdc" />
+              <stop offset="5%" stopColor={isDarkMode ? "#7dd3fc" : "#7d9995"} />
+              <stop offset="95%" stopColor={isDarkMode ? "#0f172a" : "#B3D1CD"} />
               </linearGradient>
           </defs>
           {isMobile ? (
@@ -112,7 +113,7 @@ export function ChartBarDemoAxis() {
                 width={100}
                 axisLine={false}
                 tickLine={false}
-                tick={<CustomTickVertical />}
+                tick={<CustomTickVertical isDarkMode={isDarkMode} />}
               />
             </>
           ) : (
@@ -122,7 +123,7 @@ export function ChartBarDemoAxis() {
               tickLine={false}
               tickMargin={20}
               axisLine={false}
-              tick={<CustomTick />}
+              tick={<CustomTick isDarkMode={isDarkMode} />}
             />
           )}
           <Bar dataKey="desktop" fill="url(#colorDesktop)" radius={6} />

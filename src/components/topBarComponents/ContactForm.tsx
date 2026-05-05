@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { useDarkMode } from '@/hooks/useDarkMode';
 import { useNotification } from '@/context/NotificationContext';
 import emailjs from '@emailjs/browser';
 
@@ -11,6 +13,7 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ onClose }: ContactFormProps) {
+  const { isDarkMode } = useDarkMode();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -69,9 +72,21 @@ export function ContactForm({ onClose }: ContactFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className={cn(
+        'space-y-4',
+        isDarkMode ? 'text-slate-100' : 'text-slate-900'
+      )}
+    >
       <div>
-        <Label htmlFor="fullName" className="text-[#565d6d] mb-2">
+        <Label
+          htmlFor="fullName"
+          className={cn(
+            'mb-2',
+            isDarkMode ? 'text-slate-200' : 'text-[#565d6d]'
+          )}
+        >
           Full Name
         </Label>
         <Input
@@ -80,12 +95,21 @@ export function ContactForm({ onClose }: ContactFormProps) {
           type="text"
           value={formData.fullName}
           onChange={handleChange}
+          className={cn(
+            isDarkMode ? 'bg-[#0f172a] text-slate-100 focus:border-[#0081b8] placeholder:text-slate-500' : 'bg-white text-slate-900 placeholder:text-slate-400'
+          )}
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="email" className="text-[#565d6d] mb-2">
+        <Label
+          htmlFor="email"
+          className={cn(
+            'mb-2',
+            isDarkMode ? 'text-slate-200' : 'text-[#565d6d]'
+          )}
+        >
           Email
         </Label>
         <Input
@@ -95,11 +119,20 @@ export function ContactForm({ onClose }: ContactFormProps) {
           value={formData.email}
           onChange={handleChange}
           required
+          className={cn(
+            isDarkMode ? 'bg-[#0f172a] text-slate-100 focus:border-[#0081b8] placeholder:text-slate-500' : 'bg-white text-slate-900 placeholder:text-slate-400'
+          )}
         />
       </div>
 
       <div>
-        <Label htmlFor="subject" className="text-[#565d6d] mb-2">
+        <Label
+          htmlFor="subject"
+          className={cn(
+            'mb-2',
+            isDarkMode ? 'text-slate-200' : 'text-[#565d6d]'
+          )}
+        >
           Subject
         </Label>
         <Input
@@ -108,12 +141,21 @@ export function ContactForm({ onClose }: ContactFormProps) {
           type="text"
           value={formData.subject}
           onChange={handleChange}
+          className={cn(
+            isDarkMode ? 'bg-[#0f172a] text-slate-100 focus:border-[#0081b8] placeholder:text-slate-500' : 'bg-white text-slate-900 focus:border-[#7d9995] placeholder:text-slate-400'
+          )}
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="message" className="text-[#565d6d] mb-2">
+        <Label
+          htmlFor="message"
+          className={cn(
+            'mb-2',
+            isDarkMode ? 'text-slate-200' : 'text-[#565d6d]'
+          )}
+        >
           Message
         </Label>
         <Textarea
@@ -124,6 +166,9 @@ export function ContactForm({ onClose }: ContactFormProps) {
           required
           rows={5}
           placeholder="Your message..."
+          className={cn(
+            isDarkMode ? 'bg-[#0f172a] text-slate-100 focus:border-[#0081b8] placeholder:text-gray-300' : 'bg-white text-slate-900 focus:border-[#7d9995] placeholder:text-slate-400'
+          )}
         />
       </div>
 
@@ -133,6 +178,9 @@ export function ContactForm({ onClose }: ContactFormProps) {
           variant="ghost"
           onClick={onClose}
           disabled={isLoading}
+          className={cn(
+            isDarkMode ? 'text-slate-200 hover:text-[#0081b8]' : 'text-slate-900 hover:text-[#7d9995]'
+          )}
         >
           Cancel
         </Button>
@@ -140,6 +188,9 @@ export function ContactForm({ onClose }: ContactFormProps) {
           type="submit"
           variant="default"
           disabled={isLoading}
+          className={cn(
+            isDarkMode ? 'bg-[#0081b8] hover:bg-[#00648F]' : 'bg-[#7d9995] hover:bg-[#5c726f]'
+          )}
         >
           {isLoading ? 'Sending...' : 'Send Message'}
         </Button>
