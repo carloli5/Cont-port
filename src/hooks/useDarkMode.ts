@@ -16,15 +16,12 @@ export function DarkModeProvider({
   children: ReactNode;
   defaultDark?: boolean;
 }) {
-  const [isDarkMode, setIsDarkMode] = useState(defaultDark);
-
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return defaultDark;
 
     const storedTheme = window.localStorage.getItem(STORAGE_KEY);
-    const initialDark = storedTheme ? storedTheme === 'dark' : defaultDark;
-    setIsDarkMode(initialDark);
-  }, [defaultDark]);
+    return storedTheme ? storedTheme === 'dark' : defaultDark;
+  });
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
