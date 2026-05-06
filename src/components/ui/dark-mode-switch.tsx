@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
-import { EyeClosed, MirrorRound } from "lucide-react";
+import { EyeClosed } from "lucide-react";
 
 interface DarkModeSwitchProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Switch>, "checked" | "onCheckedChange"> {
