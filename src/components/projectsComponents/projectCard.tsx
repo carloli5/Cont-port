@@ -1,5 +1,5 @@
 import { projectsData } from "@/data/projectSampleData"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDarkMode } from "@/hooks/useDarkMode"
 import { cn } from "@/lib/utils"
 import {
@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog"
+import { Spinner } from "@/components/ui/spinner"
 import { ChevronLeft, ChevronRight, Play, X } from "lucide-react"
 import { Button } from "../ui/button"
 
@@ -40,10 +41,26 @@ function getProjectMedia(project: Pick<ProjectCardSlideProps, 'videoUrl' | 'imag
     : imageMedia
 }
 
+function LoadingOverlay() {
+  return (
+    <div className="absolute inset-0 z-20 flex items-center justify-center rounded-[2rem] bg-slate-950/80">
+      <div className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 shadow-lg">
+        <Spinner className="h-10 w-10 border-slate-500 border-t-white" />
+        <span>Loading media…</span>
+      </div>
+    </div>
+  )
+}
+
 function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
   const { isDarkMode } = useDarkMode();
+  const [previewLoaded, setPreviewLoaded] = useState(false)
   const media = getProjectMedia(projectsdata)
   const currentMedia = media[0]
+
+  useEffect(() => {
+    setPreviewLoaded(false)
+  }, [projectsdata.videoUrl, projectsdata.images?.join("|")])
 
   return (
     <div
@@ -63,6 +80,7 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
               loop
               autoPlay
               playsInline
+              onLoadedData={() => setPreviewLoaded(true)}
               src={currentMedia.url}
               className="absolute top-0 left-0 h-full w-full object-cover pointer-events-none"
             />
@@ -70,6 +88,7 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
             <iframe
               width="100%"
               height="100%"
+              onLoad={() => setPreviewLoaded(true)}
               src={currentMedia.url}
               title={projectsdata.title}
               frameBorder="0"
@@ -82,6 +101,7 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
           <img
             src={currentMedia.url}
             alt={projectsdata.title}
+            onLoad={() => setPreviewLoaded(true)}
             className="absolute top-0 left-0 h-full w-full object-cover"
           />
         ) : (
@@ -90,6 +110,7 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
           </div>
         )}
 
+        {!previewLoaded && currentMedia && <LoadingOverlay />}
         {media.length > 1 && (
           <div className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white shadow-sm">
             {media.length} slides
@@ -126,6 +147,7 @@ export function CarouselComp({ data }: CarouselCompProps) {
     native?: boolean
   }[] | null>(null)
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0)
+  const [isMediaLoading, setIsMediaLoading] = useState(false)
 
   const openMedia = (
     media: { type: 'video' | 'image'; url: string; native?: boolean }[],
@@ -133,20 +155,27 @@ export function CarouselComp({ data }: CarouselCompProps) {
   ) => {
     setSelectedProjectMedia(media)
     setSelectedMediaIndex(index)
+    setIsMediaLoading(true)
     setDialogOpen(true)
   }
 
   const showPrevious = () => {
     if (!selectedProjectMedia) return
+    setIsMediaLoading(true)
     setSelectedMediaIndex((prev) => (prev - 1 + selectedProjectMedia.length) % selectedProjectMedia.length)
   }
 
   const showNext = () => {
     if (!selectedProjectMedia) return
+    setIsMediaLoading(true)
     setSelectedMediaIndex((prev) => (prev + 1) % selectedProjectMedia.length)
   }
 
   const selectedMedia = selectedProjectMedia?.[selectedMediaIndex] ?? null
+
+  const handleMediaLoad = () => {
+    setIsMediaLoading(false)
+  }
 
   return (
     <>
@@ -179,12 +208,15 @@ export function CarouselComp({ data }: CarouselCompProps) {
               <X size={18} />
             </DialogClose>
 
+            {isMediaLoading && <LoadingOverlay />}
+
             {selectedMedia?.type === 'video' ? (
               selectedMedia.native ? (
                 <video
                   controls
                   muted
                   loop
+                  onLoadedData={handleMediaLoad}
                   src={selectedMedia.url}
                   className="h-full w-full object-cover"
                 />
@@ -192,6 +224,7 @@ export function CarouselComp({ data }: CarouselCompProps) {
                 <iframe
                   width="100%"
                   height="100%"
+                  onLoad={handleMediaLoad}
                   src={selectedMedia.url}
                   title="Project media"
                   frameBorder="0"
@@ -204,6 +237,7 @@ export function CarouselComp({ data }: CarouselCompProps) {
               <img
                 src={selectedMedia.url}
                 alt="Project media"
+                onLoad={handleMediaLoad}
                 className="h-full w-full object-cover"
               />
             ) : (
