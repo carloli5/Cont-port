@@ -48,7 +48,7 @@ export const projectsData: Projects[] = [
     {
         id: 4,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20251203194559_elzhbz"),
-        thumbnailTime: 2,
+        thumbnailTime: 1,
         title: "Mitsy highlight 4",
         description: ["Creative transition work with catchy beats."],
     },
@@ -97,14 +97,14 @@ export const projectsData: Projects[] = [
     {
         id: 11,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20260505183445_jy1io1"),
-        thumbnailTime: 48,
+        thumbnailTime: 7,
         title: "Mitsy highlight 11",
         description: ["A cinematic clip with strong energy."],
     },
     {
         id: 12,
         videoUrl: cloudinaryVideoUrl("Vids/ssstik.io_1777975540803_mqqkdu"),
-        thumbnailTime: 1,
+        thumbnailTime: 48,
         title: "Mitsy highlight 12",
         description: ["A standout short video with playful edits."],
     }

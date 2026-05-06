@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel"
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog"
 import { Spinner } from "@/components/ui/spinner"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play, X } from "lucide-react"
 import { Button } from "../ui/button"
 
 function isNativeVideoSource(url: string) {
@@ -111,6 +111,12 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
         {media.length > 1 && (
           <div className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white shadow-sm">
             {media.length} slides
+          </div>
+        )}
+
+        {currentMedia?.type === 'video' && (
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0081b8] p-3 text-slate-900 shadow-lg">
+            <Play size={24} fill="white" stroke="white"/>
           </div>
         )}
 
