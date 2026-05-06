@@ -26,12 +26,9 @@ type ProjectCardSlideProps = typeof projectsData[0] & {
   onClick?: () => void
 }
 
-type MediaItem =
-  | { type: 'image'; url: string }
-  | { type: 'video'; url: string; native: boolean }
-
 function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
   const { isDarkMode } = useDarkMode();
+  const imageMedia = projectsdata.images?.map((img) => ({ type: 'image' as const, url: img })) ?? []
   const media = projectsdata.videoUrl
     ? [
         {
@@ -39,10 +36,10 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
           url: projectsdata.videoUrl,
           native: isNativeVideoSource(projectsdata.videoUrl),
         },
-        ...projectsdata.images.map((img) => ({ type: 'image' as const, url: img })),
+        ...imageMedia,
       ]
-    : projectsdata.images.map((img) => ({ type: 'image' as const, url: img }))
-  const currentMedia = media[0] as MediaItem
+    : imageMedia
+  const currentMedia = media[0]
 
   return (
     <div
@@ -55,11 +52,10 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
       )}
     >
       <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-slate-900">
-        {currentMedia.type === 'video' ? (
+        {currentMedia?.type === 'video' ? (
           currentMedia.native ? (
             <video
               controls
-              autoPlay
               muted
               loop
               src={currentMedia.url}
@@ -77,19 +73,27 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
               className="absolute top-0 left-0 h-full w-full object-cover"
             ></iframe>
           )
-        ) : (
+        ) : currentMedia ? (
           <img
             src={currentMedia.url}
             alt={projectsdata.title}
             className="absolute top-0 left-0 h-full w-full object-cover"
           />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-slate-700 text-slate-200">
+            No media available
+          </div>
         )}
       </div>
     </div>
   )
 }
 
-export function CarouselComp() {
+interface CarouselCompProps {
+  data: typeof projectsData
+}
+
+export function CarouselComp({ data }: CarouselCompProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [selectedMedia, setSelectedMedia] = useState<{
     type: 'video' | 'image'
@@ -107,21 +111,23 @@ export function CarouselComp() {
       <Carousel className="relative w-full">
         <CarouselPrevious />
         <CarouselContent>
-          {projectsData.map((project) => {
+          {data.map((project) => {
             const firstMedia = project.videoUrl
               ? {
                   type: 'video' as const,
                   url: project.videoUrl,
                   native: isNativeVideoSource(project.videoUrl),
                 }
-              : { type: 'image' as const, url: project.images[0] }
+              : project.images?.[0]
+              ? { type: 'image' as const, url: project.images[0] }
+              : null
 
             return (
               <CarouselItem key={project.id} className="basis-[100%] sm:basis-[100%] md:basis-[40%] lg:basis-[24%] pl-1">
                 <div className="p-1">
                   <ProjectCardSlide
                     {...project}
-                    onClick={() => openMedia(firstMedia)}
+                    onClick={firstMedia ? () => openMedia(firstMedia) : undefined}
                   />
                 </div>
               </CarouselItem>
@@ -141,7 +147,6 @@ export function CarouselComp() {
               selectedMedia.native ? (
                 <video
                   controls
-                  autoPlay
                   muted
                   loop
                   src={selectedMedia.url}

@@ -1,4 +1,5 @@
 import { CarouselComp } from "@/components/projectsComponents/projectCard";
+import { imageProjectsData, projectsData } from "@/data/projectSampleData";
 import { cn } from "@/lib/utils";
 import { useDarkMode } from "@/hooks/useDarkMode";
 
@@ -16,10 +17,26 @@ export function Projects() {
             )}>
                     Projects
             </h1>
-            <div className="w-full px-8 md:px-8 sm:px-8">
-                <CarouselComp />
+            <div className="w-full px-8 md:px-8 sm:px-8 space-y-10">
+                <section>
+                    <h2 className={cn(
+                        'text-2xl font-semibold mb-4',
+                        isDarkMode ? 'text-slate-100' : 'text-[#323743]'
+                    )}>
+                        Video Projects
+                    </h2>
+                    <CarouselComp data={projectsData} />
+                </section>
+                <section>
+                    <h2 className={cn(
+                        'text-2xl font-semibold mb-4',
+                        isDarkMode ? 'text-slate-100' : 'text-[#323743]'
+                    )}>
+                        Image Projects
+                    </h2>
+                    <CarouselComp data={imageProjectsData} />
+                </section>
             </div>
-            
         </div>
     );
 }

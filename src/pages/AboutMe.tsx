@@ -7,8 +7,8 @@ export function AboutMe() {
 
     const handleDownloadCV = () => {
         const link = document.createElement('a');
-        link.href = '/Carl-Nataño-Resume-WD.pdf';
-        link.download = 'Carl-Nataño-Resume-WD.pdf';
+        link.href = '/Carl-Nataño-Resume-CC.pdf';
+        link.download = 'Carl-Nataño-Resume-CC.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
