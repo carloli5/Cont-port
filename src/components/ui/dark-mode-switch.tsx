@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
+import { EyeClosed, MirrorRound } from "lucide-react";
 
 interface DarkModeSwitchProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Switch>, "checked" | "onCheckedChange"> {
@@ -23,7 +24,9 @@ export function DarkModeSwitch({
         className,
       )}
     >
-      <span>{label}</span>
+      <span className="flex items-center gap-1">
+        {label} <EyeClosed size={16}/>
+      </span>
       <Switch checked={checked} onCheckedChange={onCheckedChange} {...props} />
     </div>
   );

@@ -10,8 +10,8 @@ import { useDarkMode } from "@/hooks/useDarkMode";
 const navigation = [
     { name: 'Home', href: '#introduction' },
     { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Services', href: '#services' },
+    { name: 'Contents', href: '#projects' },
+    { name: 'Summary', href: '#services' },
     { name: 'Skills', href: '#skills' }
     // { name: 'Achievements', href: '#achievements' },
 ]
@@ -100,7 +100,7 @@ export function TopBar() {
             
             {isMobileMenuOpen && (
                 <div className={cn(
-                    'fixed top-[100px] left-0 right-0 md:hidden backdrop-blur-xl border-b z-150',
+                    'fixed top-[45px] left-0 right-0 md:hidden backdrop-blur-xl border-b z-150',
                     isDarkMode
                         ? 'bg-slate-950/90 border-slate-700/50'
                         : 'border-slate-200/70'

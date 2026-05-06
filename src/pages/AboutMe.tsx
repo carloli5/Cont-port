@@ -30,10 +30,7 @@ export function AboutMe() {
                     'afacad-flux text-lg px-10 max-w-6xl sm:text-lg md:text-2xl sm:px-30',
                     isDarkMode ? 'text-slate-300' : 'text-[#323743]'
                 )}>
-                    An aspiring web developer and graphic designer who enjoys creating clean, visually appealing, and user-friendly digital
-                     experiences. With a background in front-end development and graphic design, I focus on building engaging websites that
-                      connect with users. My goal is to combine technical skills and creativity to turn ideas into meaningful digital 
-                      solutions.
+                    Independent drag and cosplay content creator with a strong focus on beauty, transformation, and trend-driven digital storytelling across TikTok, Instagram, and Facebook. Since 2022, I have independently conceptualized, produced, and edited engaging content, including makeup transformations, costume-making tutorials, and AI-narrated videos. My work highlights creativity, technical skill in makeup and costume design, and a deep understanding of social media algorithms and content strategy.
                 </p>
                 <Button className={cn(
                     'p-5 afacad-flux text-md',

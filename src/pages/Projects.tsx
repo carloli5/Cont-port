@@ -15,26 +15,14 @@ export function Projects() {
                 'text-4xl font-bold aboreto-regular py-4 mt-25 sm:text-4xl md:text-6xl',
                 isDarkMode ? 'text-slate-100' : 'text-[#323743]'
             )}>
-                    Projects
+                    Contents
             </h1>
             <div className="w-full px-8 md:px-8 sm:px-8 space-y-10">
                 <section>
-                    <h2 className={cn(
-                        'text-2xl font-semibold mb-4',
-                        isDarkMode ? 'text-slate-100' : 'text-[#323743]'
-                    )}>
-                        Video Projects
-                    </h2>
-                    <CarouselComp data={projectsData} />
+                    <CarouselComp data={imageProjectsData} />
                 </section>
                 <section>
-                    <h2 className={cn(
-                        'text-2xl font-semibold mb-4',
-                        isDarkMode ? 'text-slate-100' : 'text-[#323743]'
-                    )}>
-                        Image Projects
-                    </h2>
-                    <CarouselComp data={imageProjectsData} />
+                    <CarouselComp data={projectsData} />
                 </section>
             </div>
         </div>

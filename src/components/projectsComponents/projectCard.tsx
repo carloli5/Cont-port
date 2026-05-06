@@ -10,7 +10,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Dialog, DialogClose, DialogContent } from "@/components/ui/dialog"
-import { X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play, X } from "lucide-react"
+import { Button } from "../ui/button"
 
 function isNativeVideoSource(url: string) {
   try {
@@ -21,24 +22,27 @@ function isNativeVideoSource(url: string) {
   }
 }
 
-
 type ProjectCardSlideProps = typeof projectsData[0] & {
   onClick?: () => void
 }
 
-function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
-  const { isDarkMode } = useDarkMode();
-  const imageMedia = projectsdata.images?.map((img) => ({ type: 'image' as const, url: img })) ?? []
-  const media = projectsdata.videoUrl
+function getProjectMedia(project: Pick<ProjectCardSlideProps, 'videoUrl' | 'images'>) {
+  const imageMedia = project.images?.map((img) => ({ type: 'image' as const, url: img })) ?? []
+  return project.videoUrl
     ? [
         {
           type: 'video' as const,
-          url: projectsdata.videoUrl,
-          native: isNativeVideoSource(projectsdata.videoUrl),
+          url: project.videoUrl,
+          native: isNativeVideoSource(project.videoUrl),
         },
         ...imageMedia,
       ]
     : imageMedia
+}
+
+function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
+  const { isDarkMode } = useDarkMode();
+  const media = getProjectMedia(projectsdata)
   const currentMedia = media[0]
 
   return (
@@ -55,11 +59,12 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
         {currentMedia?.type === 'video' ? (
           currentMedia.native ? (
             <video
-              controls
               muted
               loop
+              autoPlay
+              playsInline
               src={currentMedia.url}
-              className="absolute top-0 left-0 h-full w-full object-cover"
+              className="absolute top-0 left-0 h-full w-full object-cover pointer-events-none"
             />
           ) : (
             <iframe
@@ -68,9 +73,9 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
               src={currentMedia.url}
               title={projectsdata.title}
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="absolute top-0 left-0 h-full w-full object-cover"
+              className="absolute top-0 left-0 h-full w-full object-cover pointer-events-none"
             ></iframe>
           )
         ) : currentMedia ? (
@@ -84,6 +89,26 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
             No media available
           </div>
         )}
+
+        {media.length > 1 && (
+          <div className="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+            {media.length} slides
+          </div>
+        )}
+
+        {currentMedia?.type === 'video' && (
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0081b8] p-3 text-slate-900 shadow-lg">
+            <Play size={24} stroke="#FFFFFF" fill="#FFFFFF" />
+          </div>
+        )}
+
+        {currentMedia?.type === 'image' && (
+          <div className="absolute bottom-0 left-0 w-full bg-black/70 p-3 text-left text-sm text-slate-100 backdrop-blur-sm">
+            <p className="mt-1 text-xs leading-5 text-slate-200">
+              {projectsdata.description?.[0] ?? 'A short project image.'}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -95,16 +120,33 @@ interface CarouselCompProps {
 
 export function CarouselComp({ data }: CarouselCompProps) {
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [selectedMedia, setSelectedMedia] = useState<{
+  const [selectedProjectMedia, setSelectedProjectMedia] = useState<{
     type: 'video' | 'image'
     url: string
     native?: boolean
-  } | null>(null)
+  }[] | null>(null)
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState(0)
 
-  const openMedia = (media: { type: 'video' | 'image'; url: string; native?: boolean }) => {
-    setSelectedMedia(media)
+  const openMedia = (
+    media: { type: 'video' | 'image'; url: string; native?: boolean }[],
+    index = 0
+  ) => {
+    setSelectedProjectMedia(media)
+    setSelectedMediaIndex(index)
     setDialogOpen(true)
   }
+
+  const showPrevious = () => {
+    if (!selectedProjectMedia) return
+    setSelectedMediaIndex((prev) => (prev - 1 + selectedProjectMedia.length) % selectedProjectMedia.length)
+  }
+
+  const showNext = () => {
+    if (!selectedProjectMedia) return
+    setSelectedMediaIndex((prev) => (prev + 1) % selectedProjectMedia.length)
+  }
+
+  const selectedMedia = selectedProjectMedia?.[selectedMediaIndex] ?? null
 
   return (
     <>
@@ -112,22 +154,15 @@ export function CarouselComp({ data }: CarouselCompProps) {
         <CarouselPrevious />
         <CarouselContent>
           {data.map((project) => {
-            const firstMedia = project.videoUrl
-              ? {
-                  type: 'video' as const,
-                  url: project.videoUrl,
-                  native: isNativeVideoSource(project.videoUrl),
-                }
-              : project.images?.[0]
-              ? { type: 'image' as const, url: project.images[0] }
-              : null
+            const projectMedia = getProjectMedia(project)
+            const firstMedia = projectMedia[0]
 
             return (
               <CarouselItem key={project.id} className="basis-[100%] sm:basis-[100%] md:basis-[40%] lg:basis-[24%] pl-1">
                 <div className="p-1">
                   <ProjectCardSlide
                     {...project}
-                    onClick={firstMedia ? () => openMedia(firstMedia) : undefined}
+                    onClick={firstMedia ? () => openMedia(projectMedia, 0) : undefined}
                   />
                 </div>
               </CarouselItem>
@@ -143,6 +178,7 @@ export function CarouselComp({ data }: CarouselCompProps) {
             <DialogClose className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-white/90 p-2 text-slate-900 shadow-sm transition hover:bg-white">
               <X size={18} />
             </DialogClose>
+
             {selectedMedia?.type === 'video' ? (
               selectedMedia.native ? (
                 <video
@@ -159,19 +195,47 @@ export function CarouselComp({ data }: CarouselCompProps) {
                   src={selectedMedia.url}
                   title="Project media"
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="h-full w-full object-cover"
                 />
               )
-            ) : (
+            ) : selectedMedia ? (
               <img
-                src={selectedMedia?.url ?? ''}
+                src={selectedMedia.url}
                 alt="Project media"
                 className="h-full w-full object-cover"
               />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-slate-700 text-slate-200">
+                No media available
+              </div>
             )}
           </div>
+
+          {selectedProjectMedia && selectedProjectMedia.length > 1 && (
+            <div className="mt-3 flex items-center justify-between px-3 py-2">
+              <Button
+                type="button"
+                onClick={showPrevious}
+                className="cursor-pointer rounded-full bg-slate-900/90 px-3 py-2 text-white shadow transition hover:bg-slate-900"
+                aria-label="Previous media"
+              >
+                <ChevronLeft size={18} />
+              </Button>
+              <div className="text-xs font-semibold text-slate-100">
+                {selectedMediaIndex + 1}/{selectedProjectMedia.length}
+              </div>
+              <Button
+                type="button"
+                onClick={showNext}
+                className="cursor-pointer rounded-full bg-slate-900/90 px-3 py-2 text-white shadow transition hover:bg-slate-900"
+                aria-label="Next media"
+              >
+                <ChevronRight size={18} />
+              </Button>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </>
