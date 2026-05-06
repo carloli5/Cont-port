@@ -13,7 +13,7 @@ export function Services() {
         )}>
             <div className="flex flex-col gap-10 h-full">
                 <div className="flex flex-col md:flex-row min-h-[30rem] md:h-50 gap-5">
-                    <div className="flex flex-grow-1 flex-col p-2 justify-center items-center">
+                    <div className="flex flex-grow-1 flex-col p-2 justify-center items-center text-center w-full">
                             <h1 className={cn(
                             'text-4xl font-bold aboreto-regular py-2 sm:text-4xl md:text-4xl',
                             isDarkMode ? 'text-[#FFFFFF]' : 'text-[#7d9995]'
@@ -27,7 +27,7 @@ export function Services() {
                             Summary
                             </h1>
                     </div>
-                    <div className='flex flex-grow-1 flex-col gap-8 pb-10'>
+                    <div className='flex flex-grow-1 flex-col gap-8 pb-10 items-center md:items-start'>
                         <Card className={cn(
                             'justify-center w-full md:w-auto',
                             isDarkMode
@@ -35,7 +35,7 @@ export function Services() {
                                 : 'bg-gradient-to-r from-[#f2ebe5] to-[#faf7f5]'
                         )} >
                             <CardContent className={cn(
-                                'flex flex-col md:flex-row justify-end items-center',
+                                'flex flex-col md:flex-row justify-center md:justify-end items-center',
                                 isDarkMode ? 'bg-transparent' : ''
                             )}>
                                 <img src="makeup-img.png" alt="Content Creation" className="h-40 w-40 py-2 sm:h-80 sm:w-80 md:h-120 md:w-120" />
