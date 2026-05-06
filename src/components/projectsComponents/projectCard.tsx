@@ -41,6 +41,31 @@ function getProjectMedia(project: Pick<ProjectCardSlideProps, 'videoUrl' | 'imag
     : imageMedia
 }
 
+function getMediaPreview(project: ProjectCardSlideProps) {
+  const media = getProjectMedia(project)[0]
+  if (!media) return null
+  if (media.type === 'image') return media
+
+  if (project.thumbnailUrl) {
+    return {
+      type: 'image' as const,
+      url: project.thumbnailUrl,
+    }
+  }
+
+  const [baseUrl, query] = media.url.split('?')
+  const transform = project.thumbnailTime != null ? `so_${project.thumbnailTime}` : ''
+  const transformedUrl = transform
+    ? baseUrl.replace('/video/upload/', `/video/upload/${transform}/`)
+    : baseUrl
+  const previewUrl = `${transformedUrl}.jpg${query ? `?${query}` : ''}`
+
+  return {
+    type: 'image' as const,
+    url: previewUrl,
+  }
+}
+
 function LoadingOverlay() {
   return (
     <div className="absolute inset-0 z-20 flex items-center justify-center rounded-[2rem] bg-slate-950/80">
@@ -56,6 +81,7 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
   const { isDarkMode } = useDarkMode();
   const media = getProjectMedia(projectsdata)
   const currentMedia = media[0]
+  const previewMedia = getMediaPreview(projectsdata)
 
   return (
     <div
@@ -68,32 +94,12 @@ function ProjectCardSlide(projectsdata: ProjectCardSlideProps) {
       )}
     >
       <div className="relative h-full w-full overflow-hidden rounded-[2rem] bg-slate-900">
-        {currentMedia?.type === 'video' ? (
-          currentMedia.native ? (
-            <video
-              muted
-              loop
-              autoPlay
-              playsInline
-              src={currentMedia.url}
-              className="absolute top-0 left-0 h-full w-full object-cover pointer-events-none"
-            />
-          ) : (
-            <iframe
-              width="100%"
-              height="100%"
-              src={currentMedia.url}
-              title={projectsdata.title}
-              frameBorder="0"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute top-0 left-0 h-full w-full object-cover pointer-events-none"
-            ></iframe>
-          )
-        ) : currentMedia ? (
+        {previewMedia ? (
           <img
-            src={currentMedia.url}
+            src={previewMedia.url}
             alt={projectsdata.title}
+            loading="lazy"
+            decoding="async"
             className="absolute top-0 left-0 h-full w-full object-cover"
           />
         ) : (

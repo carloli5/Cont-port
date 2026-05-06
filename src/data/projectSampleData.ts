@@ -5,6 +5,8 @@ interface Projects {
     description?: string[];
     images?: string[];
     videoUrl?: string;
+    thumbnailUrl?: string;
+    thumbnailTime?: number;
     projectUrl?: string;
     technologies?: string[];
     customIcons?: Record<string, string>; // Maps tech name to image path
@@ -25,72 +27,84 @@ export const projectsData: Projects[] = [
     {
         id: 1,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20260505180234_j38imc"),
+        thumbnailTime: 17,
         title: "Mitsy highlight 1",
         description: ["A dynamic short video from Mitsy's feed."],
     },
     {
         id: 2,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20251110171125_jn0yio"),
+        thumbnailTime: 14,
         title: "Mitsy highlight 2",
         description: ["Fast-paced motion edit with vibrant energy."],
     },
     {
         id: 3,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7340904599554968837_hd_tabij3"),
+        thumbnailTime: 12,
         title: "Mitsy highlight 3",
         description: ["A polished clip showing Mitsy's performance style."],
     },
     {
         id: 4,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20251203194559_elzhbz"),
+        thumbnailTime: 2,
         title: "Mitsy highlight 4",
         description: ["Creative transition work with catchy beats."],
     },
     {
         id: 5,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7557318780964195592_hd_bw8wd4"),
+        thumbnailTime: 4,
         title: "Mitsy highlight 5",
         description: ["A bold look paired with rhythmic editing."],
     },
     {
         id: 6,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20251017172804_rereqg"),
+        thumbnailTime: 10,
         title: "Mitsy highlight 6",
         description: ["A dramatic shot showcasing Mitsy's aesthetic."],
     },
     {
         id: 7,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7318034310093753605_hd_bujphj"),
+        thumbnailTime: 1,
         title: "Mitsy highlight 7",
         description: ["Colorful content with strong visual storytelling."],
     },
     {
         id: 8,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7480181508494462216_hd_e7gwnk"),
+        thumbnailTime: 1,
         title: "Mitsy highlight 8",
         description: ["A fun creative moment turned into video art."],
     },
     {
         id: 9,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7433062141554380050_hd_w3ovsj"),
+        thumbnailTime: 5,
         title: "Mitsy highlight 9",
         description: ["A polished clip with bold motion visuals."],
     },
     {
         id: 10,
         videoUrl: cloudinaryVideoUrl("Vids/snaptik_7460475305669561607_hd_odyy9r"),
+        thumbnailTime: 2,
         title: "Mitsy highlight 10",
         description: ["A stylized performance moment in motion."],
     },
     {
         id: 11,
         videoUrl: cloudinaryVideoUrl("Vids/lv_0_20260505183445_jy1io1"),
+        thumbnailTime: 48,
         title: "Mitsy highlight 11",
         description: ["A cinematic clip with strong energy."],
     },
     {
         id: 12,
         videoUrl: cloudinaryVideoUrl("Vids/ssstik.io_1777975540803_mqqkdu"),
+        thumbnailTime: 1,
         title: "Mitsy highlight 12",
         description: ["A standout short video with playful edits."],
     }
